@@ -12,5 +12,9 @@
         "laravel/framework": "~5.1",
         "imagine/imagine": "~0.5.0"
     },
-    "minimum-stability": "dev"
+    "autoload": {
+        "psr-4": {
+            "Ivebe\\Lffmpeg\\": "src/"
+        }
+    }
 }
