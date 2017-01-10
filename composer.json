@@ -1,5 +1,5 @@
 {
-    "name": "ivebe/laravelffmpeg",
+    "name": "ivebe/lffmpeg",
     "description": "PHP-FFMpeg implementation in laravel with progress bar. Plug and play.",
     "authors": [
         {
@@ -9,7 +9,7 @@
     ],
     "require": {
         "php-ffmpeg/php-ffmpeg": "~0.5",
-        "laravel/framework": "5.1.*",
+        "laravel/framework": "~5.1",
         "imagine/imagine": "~0.5.0"
     },
     "minimum-stability": "dev"
