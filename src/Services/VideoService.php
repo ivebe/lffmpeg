@@ -3,7 +3,6 @@
 namespace Ivebe\Lffmpeg\Services;
 
 use Ivebe\Lffmpeg\Config\Config;
-use Ivebe\Lffmpeg\Helpers\Consts;
 use Ivebe\Lffmpeg\Repositories\Contracts\IThumbRepository;
 use Ivebe\Lffmpeg\Repositories\Contracts\IVideoRepository;
 use Ivebe\Lffmpeg\Services\Contracts\IVideoService;
@@ -14,6 +13,7 @@ class VideoService implements IVideoService
     private $videoRepository;
     private $thumbRepository;
     private $log;
+    private $encodingConfig;
 
     /**
      * VideoService constructor.
@@ -21,11 +21,14 @@ class VideoService implements IVideoService
      * @param IThumbRepository $thumbRepository
      * @param LoggerInterface $log
      */
-    public function __construct(IVideoRepository $videoRepository, IThumbRepository $thumbRepository, LoggerInterface $log)
+    public function __construct(IVideoRepository $videoRepository, IThumbRepository $thumbRepository, LoggerInterface $log, Config $config)
     {
         $this->videoRepository = $videoRepository;
         $this->thumbRepository = $thumbRepository;
         $this->log = $log;
+        $this->encodingConfig  = $config::get('encoding');
+
+        arsort($this->encodingConfig);
     }
 
     public function getVideoRepository()
@@ -122,30 +125,28 @@ class VideoService implements IVideoService
             ->first()
             ->getDimensions();
 
-        if($dimension->getHeight() >= 1080)
-            return Consts::_1080p;
 
-        if($dimension->getHeight() >= 720)
-            return Consts::_720p;
+        foreach($this->encodingConfig as $key => $encArr)
+            if($dimension->getHeight() >= $encArr['h'])
+                return $key;
 
-        //in all other cases return smallest resolution
-        return Consts::_480p;
+
+        return null;
     }
 
     public function getNextLowerQuality($quality)
     {
-        switch($quality)
-        {
-            case Consts::_1080p:
-                return Consts::_720p;
-                break;
-            case Consts::_720p:
-                return Consts::_480p;
-                break;
-            default:
-                return null;
-                break;
+        $returnNext = false;
+        foreach( $this->encodingConfig as $key => $value){
+
+            if($returnNext)
+                return $key;
+
+            if($key == $quality)
+                $returnNext = true;
         }
+
+        return null;
     }
 
 

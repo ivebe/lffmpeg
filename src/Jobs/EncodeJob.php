@@ -3,7 +3,6 @@
 namespace Ivebe\Lffmpeg\Jobs;
 
 use Ivebe\Lffmpeg\Config\Config;
-use Ivebe\Lffmpeg\Helpers\Consts;
 use Ivebe\Lffmpeg\Libs\Contracts\IEncodingLib;
 use Ivebe\Lffmpeg\Services\Contracts\IVideoService;
 use Psr\Log\LoggerInterface;
@@ -43,7 +42,7 @@ class EncodeJob extends BasicVideoJob
     /**
      * @throws \Exception
      */
-    private function encodeVideo()
+    private function encodeVideo(Config $config)
     {
 
         $src = $this->videoService->getVideoTmpPathWithFilename($this->videoID, null);
@@ -51,31 +50,16 @@ class EncodeJob extends BasicVideoJob
         $videoRepository = $this->videoService->getVideoRepository();
 
 
-        switch ($this->quality) {
+        $config = $config::get('encoding');
 
-            case Consts::_1080p:
-                $w = 1920;
-                $h = 1080;
-                $b = Config::get('encoding#1080p');
-                break;
+        if(!isset($config[$this->quality]))
+            throw new \Exception("Unknown quality settings " . $this->quality);
 
-            case Consts::_720p:
 
-                $w = 1280;
-                $h = 720;
-                $b = Config::get('encoding#720p');
-                break;
+        $w = $config[$this->quality]['w'];
+        $h = $config[$this->quality]['h'];
+        $b = $config[$this->quality]['b'];
 
-            case Consts::_480p:
-                $w = 854;
-                $h = 480;
-                $b = Config::get('encoding#480p');
-                break;
-
-            default:
-                throw new \Exception("Unknown quality settings");
-                break;
-        }
 
         $this->encodingLib->encode($src, $this->tmpFilename, $w, $h, $b, function ($v, $f, $p) use($videoRepository) {
             $videoRepository->setProgress($this->videoID, $this->quality, $p);
@@ -90,13 +74,13 @@ class EncodeJob extends BasicVideoJob
      * @param IEncodingLib $encodingLib
      * @param \Psr\Log\LoggerInterface $log
      */
-    public function handle(IVideoService $videoService, IEncodingLib $encodingLib, LoggerInterface $log)
+    public function handle(IVideoService $videoService, IEncodingLib $encodingLib, LoggerInterface $log, Config $config)
     {
         $this->initialize($videoService, $encodingLib, $log);
 
         try {
 
-            $this->encodeVideo();
+            $this->encodeVideo($config);
 
             if(file_exists($this->destinationFilename))
                 unlink($this->destinationFilename);
