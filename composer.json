@@ -16,10 +16,5 @@
         "psr-4": {
             "Ivebe\\Lffmpeg\\": "src/"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Ivebe\\Lffmpeg\\": "src/"
-        }
     }
 }
