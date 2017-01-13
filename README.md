@@ -80,7 +80,9 @@ Thumbs are manipulated using ThumbRepository. By default there is only Eloquent 
 
 * **thumb#model** Class that represent thumb model. (Ex. *\App\Thumb::class*)
 * **thumb#interval** Number of seconds between which thumbs are taken.
-* **thumb@name-format** sprintf string where only parameter is number of image (Ex. thumb_%s.jpg)
+* **thumb#name-format** sprintf string where only parameter is number of image (Ex. thumb_%s.jpg)
+* **thumb#width** desired width of a thumb
+* **thumb#height** desired height of a thumb
 * **thumb@video_id** name of foreign key video_id
 * **thumb@name** column name
 * **thumb@scene_time** column scene_time

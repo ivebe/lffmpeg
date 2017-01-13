@@ -125,7 +125,7 @@ class GenerateThumbsJob extends BasicVideoJob
         $thumbRepo = $this->videoService->getThumbRepository();
 
         foreach ($thumbRepo->thumbs($this->videoID) as $thumb)
-            $this->imageLib->thumb($this->tmpPath . '/' . $thumb, 320, 180);
+            $this->imageLib->thumb($this->tmpPath . '/' . $thumb, Config::get('thumb#width'), Config::get('thumb#height'));
     }
 
     /**

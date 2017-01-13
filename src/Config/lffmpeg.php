@@ -44,6 +44,8 @@ return [
     'thumb#model'       => \App\Thumb::class,
     'thumb#interval'    => 10,
     'thumb#name-format' => "thumb_%s.jpg",
+    'thumb#width'       => 320,
+    'thumb#height'      => 180,
     'thumb@video_id'    => 'video_id',
     'thumb@name'        => 'thumb',
     'thumb@scene_time'  => 'scene_time',
