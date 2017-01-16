@@ -26,6 +26,7 @@ class PopulateVideoInfoJob extends BasicVideoJob
         $this->init($videoService, $encodingLib, $log);
 
         try {
+            $this->clearPreviousEncodingProgress();
             $this->setDuration();
             $this->eventFinished();
         } catch (\Exception $e) {
@@ -43,5 +44,10 @@ class PopulateVideoInfoJob extends BasicVideoJob
 
         $repo = $this->videoService->getVideoRepository();
         $repo->update($this->videoID, [ Config::get('video@duration') => $duration]);
+    }
+
+    private function clearPreviousEncodingProgress()
+    {
+        $this->videoService->getVideoRepository()->clearProgress($this->videoID);
     }
 }

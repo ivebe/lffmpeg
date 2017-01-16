@@ -53,6 +53,11 @@ class VideoRepository extends EloquentRepository implements IVideoRepository
         return $vid->{Config::get('video@status')};
     }
 
+    public function clearProgress($videoID)
+    {
+        return $this->progress->where( Config::get('progress@video_id'), $videoID )->delete();
+    }
+
     public function setProgress($videoID, $quality, $percent, $status = 'ENCODING')
     {
         $encProgress = $this->progress

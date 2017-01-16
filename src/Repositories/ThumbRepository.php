@@ -45,7 +45,16 @@ class ThumbRepository extends EloquentRepository implements IThumbRepository
      */
     public function thumbs($id)
     {
-        return $this->model->where( Config::get('thumb@video_id') , $id)->lists( Config::get('thumb@name') )->toArray();
+        // Due to inconsistency between pluck and lists in 5.1 and 5.2 and 5.3 doing it this way instead.
+        $data = $this->model
+            ->select(Config::get('thumb@name'))
+            ->where(Config::get('thumb@video_id') , $id)
+            ->get()
+            ->toArray();
+
+        return array_map(function($item){
+            return $item['thumb'];
+        }, $data);
     }
 
     /**

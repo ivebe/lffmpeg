@@ -2,6 +2,7 @@
 
 namespace Ivebe\Lffmpeg;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use \Illuminate\Contracts\Events\Dispatcher as IDispatcher;
 
@@ -12,11 +13,9 @@ class LffmpegServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(IDispatcher $events)
+    public function boot()
     {
-        parent::boot($events);
-
-        $events->listen('Ivebe\Lffmpeg\Events\ProcessVideoEvent', 'Ivebe\Lffmpeg\Listeners\ProcessVideoListener');
+        Event::listen('Ivebe\Lffmpeg\Events\ProcessVideoEvent', 'Ivebe\Lffmpeg\Listeners\ProcessVideoListener');
 
         if (! $this->app->routesAreCached()) {
             require __DIR__ . '/Routes/lffmpeg.php';

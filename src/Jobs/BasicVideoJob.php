@@ -3,7 +3,6 @@
 namespace Ivebe\Lffmpeg\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -11,8 +10,9 @@ use Ivebe\Lffmpeg\Factories\EventsFactory;
 use Ivebe\Lffmpeg\Libs\Contracts\IEncodingLib;
 use Ivebe\Lffmpeg\Services\Contracts\IVideoService;
 use Psr\Log\LoggerInterface;
+use Ivebe\Lffmpeg\Jobs\Contracts\ISelfHandling;
 
-class BasicVideoJob implements SelfHandling, ShouldQueue
+class BasicVideoJob implements ISelfHandling, ShouldQueue
 {
     use Queueable, InteractsWithQueue, SerializesModels;
 

@@ -101,7 +101,7 @@ class GenerateThumbsJob extends BasicVideoJob
         for ($i = 1; $i <= $numOfThumbs; $i++) {
 
             $name     = sprintf( Config::get('thumb#name-format'), $i );
-            $img      = $this->tmpPath . '/' . $name;
+            $img      = $this->tmpPath . $name;
             $interval = $i * $perSecond;
 
             $this->encodingLib->saveFrame($this->videoService->getVideoTmpPathWithFilename($this->videoID), $img, $interval);
