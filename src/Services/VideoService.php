@@ -75,7 +75,6 @@ class VideoService implements IVideoService
 
         if (!is_null($quality)) {
 
-            $this->validateArray($quality, ['1080p', '720p', '480p']);
             $name = $quality . '_' . $name;
         }
 
