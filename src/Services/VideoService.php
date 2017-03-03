@@ -10,10 +10,10 @@ use Psr\Log\LoggerInterface;
 
 class VideoService implements IVideoService
 {
-    private $videoRepository;
-    private $thumbRepository;
-    private $log;
-    private $encodingConfig;
+    protected $videoRepository;
+    protected $thumbRepository;
+    protected $log;
+    protected $encodingConfig;
 
     /**
      * VideoService constructor.
@@ -41,7 +41,7 @@ class VideoService implements IVideoService
         return $this->thumbRepository;
     }
 
-    private function validateArray($type, $allowed)
+    protected function validateArray($type, $allowed)
     {
         if (!in_array($type, $allowed))
             throw new \Exception("Unknown '{$type}', only [" . implode(', ', $allowed) . "] are allowed");
@@ -56,7 +56,7 @@ class VideoService implements IVideoService
      * @return string
      * @throws \Exception
      */
-    private function generatePath($id, $type = 'videos', $isTmp = false, $includeFilename = true, $quality = null)
+    protected function generatePath($id, $type = 'videos', $isTmp = false, $includeFilename = true, $quality = null)
     {
 
         $this->validateArray($type, ['videos', 'thumbs']);

@@ -13,8 +13,8 @@ class ProcessVideoListener
 {
     use DispatchesJobs;
 
-    private $videoService;
-    private $jobsFactory;
+    protected $videoService;
+    protected $jobsFactory;
 
     /**
      * ProcessVideoListener constructor.

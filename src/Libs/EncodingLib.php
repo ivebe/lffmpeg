@@ -9,8 +9,8 @@ use Psr\Log\LoggerInterface;
 
 class EncodingLib implements IEncodingLib
 {
-    private $encodingLib = null;
-    private $videos = [];
+    protected $encodingLib = null;
+    protected $videos = [];
 
     public function __construct(LoggerInterface $log)
     {
@@ -27,7 +27,7 @@ class EncodingLib implements IEncodingLib
         return $this->encodingLib;
     }
 
-    private function getVideo($videoPath)
+    protected function getVideo($videoPath)
     {
         if(!isset($this->videos[$videoPath]))
             $this->videos[$videoPath] = $this->encodingLib->open( $videoPath );

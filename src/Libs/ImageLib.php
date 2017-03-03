@@ -10,7 +10,7 @@ use Psr\Log\LoggerInterface;
 
 class ImageLib implements IImageLib
 {
-    private $log;
+    protected $log;
 
     public function __construct(LoggerInterface $log)
     {
