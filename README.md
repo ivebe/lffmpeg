@@ -95,7 +95,7 @@ EncodingProgress doesn't have it's own repository, it is manipulated using Video
 * **progress@quality** name of the quality column
 * **progress@status** name of teh status column
 * **progress@percent** name of the percent column
-* 
+
 ### Usage
 
 Basic usage is as simple as typing `Helper::runEncoding(123);` where 123 is video ID in the Video repository. However you should know that each encoding process is done using jobs and queues, so you should setup your queue properly.
