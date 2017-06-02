@@ -50,6 +50,7 @@ class EncodingLib implements IEncodingLib
     public function saveFrame($src, $dst, $time)
     {
         $this->getVideo($src)->frame( \FFMpeg\Coordinate\TimeCode::fromSeconds($time) )->save($dst);
+        return file_exists($dst);
     }
 
     public function encode($src, $dst, $w, $h, $b, $progressFunc)
