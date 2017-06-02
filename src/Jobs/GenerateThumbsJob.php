@@ -104,7 +104,11 @@ class GenerateThumbsJob extends BasicVideoJob
             $img      = $this->tmpPath . $name;
             $interval = $i * $perSecond;
 
-            $this->encodingLib->saveFrame($this->videoService->getVideoTmpPathWithFilename($this->videoID), $img, $interval);
+            $frameCreated = $this->encodingLib->saveFrame($this->videoService->getVideoTmpPathWithFilename($this->videoID), $img, $interval);
+
+            // If thumb is not created do not store it in DB
+            if(!$frameCreated)
+                continue;
 
             $thumbRepo->create([
                 Config::get('thumb@video_id') => $this->videoID,
